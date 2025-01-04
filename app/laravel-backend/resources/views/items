@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD with JSON Server</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Items</h1>
+    <form id="create-form">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="text" id="description" placeholder="Description" required>
+        <button type="submit">Add Item</button>
+    </form>
+    <ul id="items-list"></ul>
+    <script>
+        const apiUrl = "http://localhost:3000/items";
+
+        // データ取得
+        async function fetchItems() {
+            const response = await axios.get(apiUrl);
+            const itemsList = document.getElementById('items-list');
+            itemsList.innerHTML = '';
+            response.data.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    ${item.name} - ${item.description}
+                    <button onclick="deleteItem(${item.id})">Delete</button>
+                `;
+                itemsList.appendChild(li);
+            });
+        }
+
+        // 新規追加
+        document.getElementById('create-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const description = document.getElementById('description').value;
+            await axios.post(apiUrl, { name, description });
+            fetchItems();
+        });
+
+        // データ削除
+        async function deleteItem(id) {
+            await axios.delete(`${apiUrl}/${id}`);
+            fetchItems();
+        }
+
+        fetchItems(); // 初期データ取得
+    </script>
+</body>
+</html>
