@@ -1,7 +1,6 @@
 # laravel-json
-# Laravel-json2
 
-このリポジトリは Laravel と JSON Server を使用したプロジェクトです。
+このリポジトリは Laravel と SQLite を使用したプロジェクトです。
 
 ## 環境
 - Laravel
