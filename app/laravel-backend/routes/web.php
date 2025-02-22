@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/items');
 });
 
 Route::resource('items', ItemController::class);
